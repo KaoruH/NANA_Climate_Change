@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,8 +41,8 @@ public class TemperaturaController {
         
         Temperatura temperatura = new Temperatura();
         temperatura.setPais(temperaturaService.buscarPaisPorId(tempReq.getPaisId()));
-        temperatura.setAnioTemperatura(tempReq.getAnio());
-        temperatura.setTemperaturaGrados(tempReq.getGrado());
+        temperatura.setAnio(tempReq.getAnio());
+        temperatura.setGrado(tempReq.getGrado());
         
 
         temperaturaService.crearTemperatura(temperatura);
@@ -49,11 +50,14 @@ public class TemperaturaController {
         GenericResponse resp = new GenericResponse();
         resp.isOk = true;
         resp.id = temperatura.getTemperaturaId();
-        resp.message = " generado con exito";
+        resp.message = "Temperatura generada con exito";
 
         return ResponseEntity.ok(resp);
 
     }
+
+    @DeleteMapping("/temperaturas/{id}")
+    
 
     
 }
