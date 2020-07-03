@@ -57,7 +57,8 @@ public class TemperaturaController {
     }
 
     @DeleteMapping("/temperaturas/{id}")
-    
+    public ResponseEntity<?> borrarTemperatura
+
 
     
 }
