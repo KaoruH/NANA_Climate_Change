@@ -57,7 +57,10 @@ public class TemperaturaController {
     }
 
     @DeleteMapping("/temperaturas/{id}")
-    public ResponseEntity<?> borrarTemperatura
+    public ResponseEntity<?> borrarTemperatura(@PathVariable Integer id){
+
+        
+    }
 
 
     

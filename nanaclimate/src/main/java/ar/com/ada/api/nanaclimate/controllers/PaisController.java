@@ -27,15 +27,9 @@ public class PaisController {
     @GetMapping("/paises")
     public ResponseEntity<List<Pais>> getPaises(@RequestParam(value = "nombre", required = false) String nombre){
 
-        List<Pais> listaPais;
+        List<Pais> listaPais = paisService.buscarTodos();
 
-        if (nombre == null) {
-            listaPais = paisService.buscarTodosOrdenadoPorNombre();
-        } else {
-            listaPais = paisService.buscarTodosPorNombre(nombre);
-        }
-
-        return listaPais;
+        return ResponseEntity.ok(listaPais);
     }
 
     @GetMapping("/paises/{id}")
@@ -75,13 +69,13 @@ public class PaisController {
 
         GenericResponse genResp = new GenericResponse();
 
-        Pais pais = paisService.buscarPorNombre(pPR.getNombre());
+        Pais pais = paisService.buscarPorId(id);
 
         if (pais == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         boolean resultado = false;
-        resultado = paisService.actualizarNombrePais(pPR.getNombre());
+        resultado = paisService.actualizarNombre(pais, pPR.getNombre());
 
         if (resultado) {
             genResp.isOk = true;
