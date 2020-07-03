@@ -3,15 +3,8 @@ package ar.com.ada.api.nanaclimate.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.nanaclimate.entities.Pais;
 import ar.com.ada.api.nanaclimate.models.request.PutPaisRequest;
@@ -25,7 +18,7 @@ public class PaisController {
     PaisService paisService;
 
     @GetMapping("/paises")
-    public ResponseEntity<List<Pais>> getPaises(@RequestParam(value = "nombre", required = false) String nombre){
+    public ResponseEntity<List<Pais>> getPaises(@RequestParam(value = "nombre", required = false) String nombre) {
 
         List<Pais> listaPais = paisService.buscarTodos();
 
@@ -33,7 +26,7 @@ public class PaisController {
     }
 
     @GetMapping("/paises/{id}")
-    public ResponseEntity<Pais> getPaisById(@PathVariable Integer id){
+    public ResponseEntity<Pais> getPaisById(@PathVariable Integer id) {
 
         Pais pais = paisService.buscarPorId(id);
 
@@ -44,7 +37,7 @@ public class PaisController {
     }
 
     @PostMapping("paises/")
-    public ResponseEntity<?> postPais(@RequestBody Pais paisReq){
+    public ResponseEntity<?> postPais(@RequestBody Pais paisReq) {
 
         GenericResponse genResp = new GenericResponse();
 
@@ -65,7 +58,7 @@ public class PaisController {
     }
 
     @PutMapping("paises/{id}")
-    public ResponseEntity<?> putPais(@PathVariable Integer id, @RequestBody PutPaisRequest pPR){
+    public ResponseEntity<?> putPais(@PathVariable Integer id, @RequestBody PutPaisRequest pPR) {
 
         GenericResponse genResp = new GenericResponse();
 
@@ -91,6 +84,4 @@ public class PaisController {
         }
     }
 
-
-    
 }

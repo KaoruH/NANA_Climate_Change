@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "temperatura")
 public class Temperatura {
@@ -58,5 +57,5 @@ public class Temperatura {
     public void setPais(Pais pais) {
         this.pais = pais;
     }
-    
+
 }

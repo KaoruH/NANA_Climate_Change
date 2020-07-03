@@ -3,65 +3,79 @@ package ar.com.ada.api.nanaclimate.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import ar.com.ada.api.nanaclimate.entities.Pais;
-import ar.com.ada.api.nanaclimate.entities.Temperatura;
+import ar.com.ada.api.nanaclimate.entities.*;
 import ar.com.ada.api.nanaclimate.models.request.PostTemperaturaRequest;
 import ar.com.ada.api.nanaclimate.models.response.GenericResponse;
-import ar.com.ada.api.nanaclimate.services.TemperaturaService;
+import ar.com.ada.api.nanaclimate.services.*;
 
 @RestController
 public class TemperaturaController {
 
     @Autowired
     TemperaturaService temperaturaService;
+    @Autowired
+    PaisService paisService;
 
     @GetMapping("/temperaturas/paises/{paisId}")
-    public ResponseEntity<List<Temperatura>> getTemperaturasDePais(@PathVariable Integer paisId){
+    public ResponseEntity<List<Temperatura>> getTemperaturasDePais(@PathVariable Integer paisId) {
 
-        List<Temperatura> listaTemperaturas = temperaturaService.buscarPorPaisId(paisId);
+        Pais pais = paisService.buscarPorId(paisId);
 
-        if (listaTemperaturas == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        List<Temperatura> listaTemperaturas = pais.getTemperaturas();
+
         return ResponseEntity.ok(listaTemperaturas);
 
     }
 
     @PostMapping("/temperaturas")
-    public ResponseEntity<?> crearTemperatura(@RequestBody PostTemperaturaRequest tempReq){
-        
+    public ResponseEntity<?> crearTemperatura(@RequestBody PostTemperaturaRequest tempReq) {
+
         Temperatura temperatura = new Temperatura();
-        temperatura.setPais(temperaturaService.buscarPaisPorId(tempReq.getPaisId()));
+        Pais pais = paisService.buscarPorId(tempReq.getPaisId());
+
+        temperatura.setPais(pais);
         temperatura.setAnio(tempReq.getAnio());
         temperatura.setGrado(tempReq.getGrado());
-        
 
         temperaturaService.crearTemperatura(temperatura);
-        
-        GenericResponse resp = new GenericResponse();
-        resp.isOk = true;
-        resp.id = temperatura.getTemperaturaId();
-        resp.message = "Temperatura generada con exito";
 
-        return ResponseEntity.ok(resp);
+        GenericResponse genResp = new GenericResponse();
+        genResp.isOk = true;
+        genResp.id = temperatura.getTemperaturaId();
+        genResp.message = "Temperatura generada con exito";
+
+        return ResponseEntity.ok(genResp);
 
     }
 
     @DeleteMapping("/temperaturas/{id}")
-    public ResponseEntity<?> borrarTemperatura(@PathVariable Integer id){
+    public ResponseEntity<?> borrarTemperatura(@PathVariable Integer id) {
 
-        
+        GenericResponse genResp = new GenericResponse();
+
+        Temperatura temperatura = temperaturaService.buscarPorId(id);
+
+        if (temperatura != null) {
+
+            temperatura.setAnio(0);
+            genResp.isOk = true;
+            genResp.id = temperatura.getTemperaturaId();
+            genResp.message = "Temperatura borrada con exito";
+
+            return ResponseEntity.ok(genResp);
+
+        } else {
+
+            genResp.isOk = false;
+            genResp.message = "La temperatura no pudo ser borrada";
+
+            return ResponseEntity.ok(genResp);
+
+        }
+
     }
 
-
-    
 }

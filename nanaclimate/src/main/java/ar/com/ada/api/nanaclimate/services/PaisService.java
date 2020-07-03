@@ -15,13 +15,13 @@ public class PaisService {
     @Autowired
     PaisRepository paisRepo;
 
-    public List<Pais> buscarTodos(){
+    public List<Pais> buscarTodos() {
 
         return paisRepo.findAll();
 
     }
 
-    public Pais buscarPorId(Integer id){
+    public Pais buscarPorId(Integer id) {
 
         Optional<Pais> b = paisRepo.findById(id);
 
@@ -29,20 +29,19 @@ public class PaisService {
             return b.get();
         return null;
 
-
     }
 
-    public boolean actualizarNombre(Pais pais, String nombre){
+    public boolean actualizarNombre(Pais pais, String nombre) {
 
         pais.setNombre(nombre);
 
         grabar(pais);
 
         return true;
-        
+
     }
 
-    public boolean crearPais(Pais pais){
+    public boolean crearPais(Pais pais) {
 
         if (existe(pais.getPaisId()))
             return false;
@@ -51,18 +50,16 @@ public class PaisService {
         return true;
     }
 
-    public void grabar(Pais pais){
+    public void grabar(Pais pais) {
 
         paisRepo.save(pais);
     }
 
-    public boolean existe(Integer id){
+    public boolean existe(Integer id) {
 
         Pais pais = buscarPorId(id);
 
         return pais != null;
     }
 
-    
-    
 }

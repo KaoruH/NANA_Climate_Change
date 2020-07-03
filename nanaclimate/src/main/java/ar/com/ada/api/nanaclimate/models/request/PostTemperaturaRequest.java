@@ -29,5 +29,5 @@ public class PostTemperaturaRequest {
     public void setGrado(double grado) {
         this.grado = grado;
     }
-    
+
 }

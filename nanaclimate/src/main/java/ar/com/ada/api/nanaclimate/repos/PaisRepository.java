@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import ar.com.ada.api.nanaclimate.entities.Pais;
 
 @Repository
-public interface PaisRepository extends JpaRepository<Pais, Integer>{
-    
+public interface PaisRepository extends JpaRepository<Pais, Integer> {
+
 }
