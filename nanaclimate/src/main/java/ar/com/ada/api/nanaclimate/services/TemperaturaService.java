@@ -14,13 +14,21 @@ public class TemperaturaService {
     @Autowired
     TemperaturaRepository temperaturaRepo;
 
-    public boolean crearTemperatura(Temperatura temperatura) {
+    @Autowired
+    PaisService paisService;
 
-        if (existe(temperatura.getTemperaturaId()))
-            return false;
+    public Temperatura createTemperatura(Integer paisId, Integer anio, double grado) {
 
-        grabar(temperatura);
-        return true;
+        Temperatura temperatura = new Temperatura();
+
+        temperatura.setPais(paisService.buscarPorId(paisId));
+        temperatura.setAnio(anio);
+        temperatura.setGrado(grado);
+
+        temperaturaRepo.save(temperatura);
+
+        return temperatura;
+
     }
 
     public void grabar(Temperatura temperatura) {

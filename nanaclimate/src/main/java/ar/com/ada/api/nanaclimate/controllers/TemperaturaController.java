@@ -31,23 +31,17 @@ public class TemperaturaController {
     }
 
     @PostMapping("/temperaturas")
-    public ResponseEntity<?> crearTemperatura(@RequestBody PostTemperaturaRequest tempReq) {
+    public ResponseEntity<GenericResponse> crearTemperatura(@RequestBody PostTemperaturaRequest tempReq) {
 
-        Temperatura temperatura = new Temperatura();
-        Pais pais = paisService.buscarPorId(tempReq.getPaisId());
+        Temperatura temperatura = temperaturaService.createTemperatura(tempReq.getPaisId(), tempReq.getAnio(), tempReq.getGrado());
 
-        temperatura.setPais(pais);
-        temperatura.setAnio(tempReq.getAnio());
-        temperatura.setGrado(tempReq.getGrado());
-
-        temperaturaService.crearTemperatura(temperatura);
-
-        GenericResponse genResp = new GenericResponse();
-        genResp.isOk = true;
-        genResp.id = temperatura.getTemperaturaId();
-        genResp.message = "Temperatura generada con exito";
-
-        return ResponseEntity.ok(genResp);
+        GenericResponse resp = new GenericResponse();
+    
+        resp.isOk = true;
+        resp.message = "Se cargo la temperatura con exito";
+        resp.id = temperatura.getTemperaturaId();
+    
+        return ResponseEntity.ok(resp);
 
     }
 
