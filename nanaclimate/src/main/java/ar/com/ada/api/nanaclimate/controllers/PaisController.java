@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.nanaclimate.entities.Pais;
+import ar.com.ada.api.nanaclimate.models.request.PostPaisRequest;
 import ar.com.ada.api.nanaclimate.models.request.PutPaisRequest;
 import ar.com.ada.api.nanaclimate.models.response.GenericResponse;
 import ar.com.ada.api.nanaclimate.services.PaisService;
@@ -36,28 +37,21 @@ public class PaisController {
         return ResponseEntity.ok(pais);
     }
 
-    @PostMapping("paises/")
-    public ResponseEntity<?> postPais(@RequestBody Pais paisReq) {
+    @PostMapping("/paises")
+    public ResponseEntity<GenericResponse> postPais(@RequestBody PostPaisRequest pais) {
 
-        GenericResponse genResp = new GenericResponse();
+        paisService.crearPais(pais.getPaisId(), pais.getNombre());
 
-        boolean resultado = paisService.crearPais(paisReq);
+        GenericResponse resp = new GenericResponse();
+        resp.isOk = true;
+        resp.message = "Se agrego el pais " + pais.getNombre() + " con exito";
+        resp.id = pais.getPaisId();
 
-        if (resultado) {
-            genResp.isOk = true;
-            genResp.id = paisReq.getPaisId();
-            genResp.message = "Creaste un pais con éxito.";
-            return ResponseEntity.ok(genResp);
-        } else {
-
-            genResp.isOk = false;
-            genResp.message = "No se pudo crear el pais! Este pais ya existe.";
-
-            return ResponseEntity.badRequest().body(genResp);
-        }
+        return ResponseEntity.ok(resp);
     }
 
-    @PutMapping("paises/{id}")
+
+    @PutMapping("/paises/{id}")
     public ResponseEntity<?> putPais(@PathVariable Integer id, @RequestBody PutPaisRequest pPR) {
 
         GenericResponse genResp = new GenericResponse();

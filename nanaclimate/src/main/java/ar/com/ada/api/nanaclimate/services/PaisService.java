@@ -41,13 +41,13 @@ public class PaisService {
 
     }
 
-    public boolean crearPais(Pais pais) {
+    public void crearPais(Integer id, String nombre) {
 
-        if (existe(pais.getPaisId()))
-            return false;
+        Pais pais = new Pais();
+        pais.setPaisId(id);
+        pais.setNombre(nombre);
 
-        grabar(pais);
-        return true;
+        this.grabar(pais);
     }
 
     public void grabar(Pais pais) {
