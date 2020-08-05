@@ -53,4 +53,16 @@ public class TemperaturaService {
 
     }
 
+    public void deleteTemperatura(Temperatura temperatura) {
+
+        this.updateTemperatura(temperatura, 0);
+
+    }
+
+    public void updateTemperatura(Temperatura temperatura, int anio) {
+
+        temperatura.setAnio(anio);
+
+        temperaturaRepo.save(temperatura);
+    }
 }

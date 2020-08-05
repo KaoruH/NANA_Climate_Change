@@ -54,7 +54,7 @@ public class TemperaturaController {
 
         if (temperatura != null) {
 
-            temperatura.setAnio(0);
+            temperaturaService.deleteTemperatura(temperatura);
             genResp.isOk = true;
             genResp.id = temperatura.getTemperaturaId();
             genResp.message = "Temperatura borrada con exito";
